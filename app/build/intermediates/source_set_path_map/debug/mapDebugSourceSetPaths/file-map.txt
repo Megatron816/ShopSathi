@@ -1,0 +1,57 @@
+com.example.shoppinglist2app-activity-1.9.0-0 C:\Users\arpit_\.gradle\caches\transforms-4\06be83300d7ed58a46bde97661dda251\transformed\activity-1.9.0\res
+com.example.shoppinglist2app-profileinstaller-1.3.1-1 C:\Users\arpit_\.gradle\caches\transforms-4\0b11253d2aeda6c0546b4761f2117fe4\transformed\profileinstaller-1.3.1\res
+com.example.shoppinglist2app-emoji2-1.3.0-2 C:\Users\arpit_\.gradle\caches\transforms-4\11e497f99b4d34175f11d6d65ab46c32\transformed\emoji2-1.3.0\res
+com.example.shoppinglist2app-lifecycle-viewmodel-release-3 C:\Users\arpit_\.gradle\caches\transforms-4\1336f59e9d4ba41927298cdb15c087e2\transformed\lifecycle-viewmodel-release\res
+com.example.shoppinglist2app-navigation-runtime-ktx-2.7.7-4 C:\Users\arpit_\.gradle\caches\transforms-4\1f6b24c25f58b350186c4747573854dd\transformed\navigation-runtime-ktx-2.7.7\res
+com.example.shoppinglist2app-material-icons-core-release-5 C:\Users\arpit_\.gradle\caches\transforms-4\20c385d756887ede266730ab707ea6a3\transformed\material-icons-core-release\res
+com.example.shoppinglist2app-ui-release-6 C:\Users\arpit_\.gradle\caches\transforms-4\212a86a23866eef8cd74ebd113439609\transformed\ui-release\res
+com.example.shoppinglist2app-lifecycle-viewmodel-compose-release-7 C:\Users\arpit_\.gradle\caches\transforms-4\229e1512bb868ca998b310b4a63a041d\transformed\lifecycle-viewmodel-compose-release\res
+com.example.shoppinglist2app-room-ktx-2.6.1-8 C:\Users\arpit_\.gradle\caches\transforms-4\309b4fba6752f26d6c8d83d82098e18f\transformed\room-ktx-2.6.1\res
+com.example.shoppinglist2app-foundation-release-9 C:\Users\arpit_\.gradle\caches\transforms-4\3c25e91a7ceb3b08fc6e326312e786d9\transformed\foundation-release\res
+com.example.shoppinglist2app-animation-release-10 C:\Users\arpit_\.gradle\caches\transforms-4\3cbe54e9f6bf0d77b20f455abe5bfd96\transformed\animation-release\res
+com.example.shoppinglist2app-lifecycle-viewmodel-ktx-2.8.3-11 C:\Users\arpit_\.gradle\caches\transforms-4\40bdddfaf5e2b272381e91ea19dbfb08\transformed\lifecycle-viewmodel-ktx-2.8.3\res
+com.example.shoppinglist2app-annotation-experimental-1.4.0-12 C:\Users\arpit_\.gradle\caches\transforms-4\436e3badf51a76906084d6e7849316a1\transformed\annotation-experimental-1.4.0\res
+com.example.shoppinglist2app-core-1.13.1-13 C:\Users\arpit_\.gradle\caches\transforms-4\4d036f403ffa124b551c4ab4d79bbb04\transformed\core-1.13.1\res
+com.example.shoppinglist2app-lifecycle-viewmodel-savedstate-2.8.3-14 C:\Users\arpit_\.gradle\caches\transforms-4\4e1ef82bcadee3c307e3d0c73d99dae4\transformed\lifecycle-viewmodel-savedstate-2.8.3\res
+com.example.shoppinglist2app-material-ripple-release-15 C:\Users\arpit_\.gradle\caches\transforms-4\58574c47ef887358e045f2e8c382fffd\transformed\material-ripple-release\res
+com.example.shoppinglist2app-navigation-runtime-2.7.7-16 C:\Users\arpit_\.gradle\caches\transforms-4\58b5f2a3ccf25e5fc7a51b93f0e94db2\transformed\navigation-runtime-2.7.7\res
+com.example.shoppinglist2app-ui-test-manifest-1.6.8-17 C:\Users\arpit_\.gradle\caches\transforms-4\5cdf18fb19fa64f594f6313d5266f828\transformed\ui-test-manifest-1.6.8\res
+com.example.shoppinglist2app-activity-ktx-1.9.0-18 C:\Users\arpit_\.gradle\caches\transforms-4\611bc47241396801c45390de6bf37427\transformed\activity-ktx-1.9.0\res
+com.example.shoppinglist2app-navigation-common-2.7.7-19 C:\Users\arpit_\.gradle\caches\transforms-4\6696bbc848cc7c4dfa16c6722483d68d\transformed\navigation-common-2.7.7\res
+com.example.shoppinglist2app-core-ktx-1.13.1-20 C:\Users\arpit_\.gradle\caches\transforms-4\6b3dc94b24d6a26c296df4c030d24d02\transformed\core-ktx-1.13.1\res
+com.example.shoppinglist2app-ui-unit-release-21 C:\Users\arpit_\.gradle\caches\transforms-4\72d9a61416106c2290632a6560527146\transformed\ui-unit-release\res
+com.example.shoppinglist2app-ui-util-release-22 C:\Users\arpit_\.gradle\caches\transforms-4\766b55f9ea66f8a62f9e0f89bc128d8c\transformed\ui-util-release\res
+com.example.shoppinglist2app-ui-tooling-data-release-23 C:\Users\arpit_\.gradle\caches\transforms-4\792f4eaffd574630463a80f1d9689d47\transformed\ui-tooling-data-release\res
+com.example.shoppinglist2app-material-icons-extended-release-24 C:\Users\arpit_\.gradle\caches\transforms-4\867e60e06cafc941a2e7c7de20f5a5c9\transformed\material-icons-extended-release\res
+com.example.shoppinglist2app-room-runtime-2.6.1-25 C:\Users\arpit_\.gradle\caches\transforms-4\87a73d6787a1a1476b0b51b3cbd97c13\transformed\room-runtime-2.6.1\res
+com.example.shoppinglist2app-material-release-26 C:\Users\arpit_\.gradle\caches\transforms-4\91d4b02d6b5f829ecdb7172b9caeba1e\transformed\material-release\res
+com.example.shoppinglist2app-sqlite-2.4.0-27 C:\Users\arpit_\.gradle\caches\transforms-4\920e756a10a99d6c90c79aa6d1402e68\transformed\sqlite-2.4.0\res
+com.example.shoppinglist2app-ui-tooling-preview-release-28 C:\Users\arpit_\.gradle\caches\transforms-4\a6d7477e12877f63393a2f2fe34b60cd\transformed\ui-tooling-preview-release\res
+com.example.shoppinglist2app-navigation-compose-2.7.7-29 C:\Users\arpit_\.gradle\caches\transforms-4\a709274eccb491a3281e7c9f4132fead\transformed\navigation-compose-2.7.7\res
+com.example.shoppinglist2app-sqlite-framework-2.4.0-30 C:\Users\arpit_\.gradle\caches\transforms-4\a74336c6482cf57c04e860b2f9789f25\transformed\sqlite-framework-2.4.0\res
+com.example.shoppinglist2app-startup-runtime-1.1.1-31 C:\Users\arpit_\.gradle\caches\transforms-4\aeb2a16821bc4593ce10e0882c428c66\transformed\startup-runtime-1.1.1\res
+com.example.shoppinglist2app-core-runtime-2.2.0-32 C:\Users\arpit_\.gradle\caches\transforms-4\bccd26228c5fc576280f2bf6628dade5\transformed\core-runtime-2.2.0\res
+com.example.shoppinglist2app-savedstate-ktx-1.2.1-33 C:\Users\arpit_\.gradle\caches\transforms-4\c005479a09374992005ef0cc3d47f136\transformed\savedstate-ktx-1.2.1\res
+com.example.shoppinglist2app-savedstate-1.2.1-34 C:\Users\arpit_\.gradle\caches\transforms-4\c4daa511abed3688b03b63295863c16d\transformed\savedstate-1.2.1\res
+com.example.shoppinglist2app-animation-core-release-35 C:\Users\arpit_\.gradle\caches\transforms-4\c902457414931dfae5350fea494f9710\transformed\animation-core-release\res
+com.example.shoppinglist2app-navigation-common-ktx-2.7.7-36 C:\Users\arpit_\.gradle\caches\transforms-4\cb3294f47cf568f7e8a6cbd031882f1c\transformed\navigation-common-ktx-2.7.7\res
+com.example.shoppinglist2app-lifecycle-runtime-ktx-release-37 C:\Users\arpit_\.gradle\caches\transforms-4\cba4832e639478ba5873ed854e7ad3f8\transformed\lifecycle-runtime-ktx-release\res
+com.example.shoppinglist2app-lifecycle-process-2.8.3-38 C:\Users\arpit_\.gradle\caches\transforms-4\d04374675c94989dbdc823ac71b02206\transformed\lifecycle-process-2.8.3\res
+com.example.shoppinglist2app-activity-compose-1.9.0-39 C:\Users\arpit_\.gradle\caches\transforms-4\d22ebec1e381161ea7e27ca12df514da\transformed\activity-compose-1.9.0\res
+com.example.shoppinglist2app-ui-text-release-40 C:\Users\arpit_\.gradle\caches\transforms-4\d2524a783655f10b6a1e4cf7a8e80ef9\transformed\ui-text-release\res
+com.example.shoppinglist2app-customview-poolingcontainer-1.0.0-41 C:\Users\arpit_\.gradle\caches\transforms-4\d5469b9f4f40aeaf24d117cdde79c6a4\transformed\customview-poolingcontainer-1.0.0\res
+com.example.shoppinglist2app-ui-tooling-release-42 C:\Users\arpit_\.gradle\caches\transforms-4\da65cbf2a40a7c75f655794b3b4468af\transformed\ui-tooling-release\res
+com.example.shoppinglist2app-ui-graphics-release-43 C:\Users\arpit_\.gradle\caches\transforms-4\de5a9f2bd7afaaa608a7efb2406d92a9\transformed\ui-graphics-release\res
+com.example.shoppinglist2app-ui-geometry-release-44 C:\Users\arpit_\.gradle\caches\transforms-4\e7b173de042d558f10ef61e198927f4f\transformed\ui-geometry-release\res
+com.example.shoppinglist2app-foundation-layout-release-45 C:\Users\arpit_\.gradle\caches\transforms-4\f076202555f321084e3ec9372dd3172b\transformed\foundation-layout-release\res
+com.example.shoppinglist2app-runtime-release-46 C:\Users\arpit_\.gradle\caches\transforms-4\f1d023bd06fdfa207d72c781d00ba22b\transformed\runtime-release\res
+com.example.shoppinglist2app-lifecycle-livedata-core-2.8.3-47 C:\Users\arpit_\.gradle\caches\transforms-4\f3b29dee5fbf66e0ca21e01ba72f8251\transformed\lifecycle-livedata-core-2.8.3\res
+com.example.shoppinglist2app-lifecycle-runtime-release-48 C:\Users\arpit_\.gradle\caches\transforms-4\f57b99549d61bd48721ab1beb1371985\transformed\lifecycle-runtime-release\res
+com.example.shoppinglist2app-runtime-saveable-release-49 C:\Users\arpit_\.gradle\caches\transforms-4\f7f79799fbce2d55d42a8da7e4570d79\transformed\runtime-saveable-release\res
+com.example.shoppinglist2app-material3-release-50 C:\Users\arpit_\.gradle\caches\transforms-4\fbfd58384d2a872ec5408f98ad142627\transformed\material3-release\res
+com.example.shoppinglist2app-resValues-51 C:\Users\arpit_\OneDrive\Music\Android Projects\ShopSathi\app\build\generated\res\resValues\debug
+com.example.shoppinglist2app-packageDebugResources-52 C:\Users\arpit_\OneDrive\Music\Android Projects\ShopSathi\app\build\intermediates\incremental\debug\packageDebugResources\merged.dir
+com.example.shoppinglist2app-packageDebugResources-53 C:\Users\arpit_\OneDrive\Music\Android Projects\ShopSathi\app\build\intermediates\incremental\debug\packageDebugResources\stripped.dir
+com.example.shoppinglist2app-debug-54 C:\Users\arpit_\OneDrive\Music\Android Projects\ShopSathi\app\build\intermediates\merged_res\debug\mergeDebugResources
+com.example.shoppinglist2app-debug-55 C:\Users\arpit_\OneDrive\Music\Android Projects\ShopSathi\app\src\debug\res
+com.example.shoppinglist2app-main-56 C:\Users\arpit_\OneDrive\Music\Android Projects\ShopSathi\app\src\main\res
