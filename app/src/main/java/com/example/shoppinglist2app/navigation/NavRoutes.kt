@@ -14,8 +14,9 @@ object NavRoutes {
     fun shoppingMode(listId: Int, listName: String)  = "shopping_mode/$listId/${listName.encodeSlash()}"
     fun event(date: String)                          = "event/$date"
 
-    // Bottom-nav top-level routes (show bottom bar on these)
-    val topLevel = setOf(HOME, CALENDAR, ANALYTICS, TEMPLATES)
+    // Ordered top-level routes used by bottom navigation and swipe navigation.
+    val topLevelOrder = listOf(HOME, CALENDAR, ANALYTICS, TEMPLATES)
+    val topLevel = topLevelOrder.toSet()
 
     private fun String.encodeSlash() = replace("/", "|")
     fun String.decodeSlash()         = replace("|", "/")

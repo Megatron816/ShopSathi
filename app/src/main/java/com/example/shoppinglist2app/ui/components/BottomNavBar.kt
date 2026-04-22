@@ -7,7 +7,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import com.example.shoppinglist2app.navigation.NavRoutes
 import com.example.shoppinglist2app.ui.theme.*
 
@@ -25,7 +24,7 @@ private val NAV_ITEMS = listOf(
 )
 
 @Composable
-fun BottomNavBar(navController: NavController, currentRoute: String?) {
+fun BottomNavBar(currentRoute: String?, onNavigate: (String) -> Unit) {
     NavigationBar(
         containerColor = SkyBlueNavBg,           // blue-300 — different shade
         tonalElevation = 0.dp
@@ -43,11 +42,7 @@ fun BottomNavBar(navController: NavController, currentRoute: String?) {
                 selected  = currentRoute == item.route,
                 onClick   = {
                     if (currentRoute != item.route) {
-                        navController.navigate(item.route) {
-                            popUpTo(NavRoutes.HOME) { saveState = true }
-                            launchSingleTop = true
-                            restoreState    = true
-                        }
+                        onNavigate(item.route)
                     }
                 },
                 icon      = { Icon(item.icon, contentDescription = item.label) },
