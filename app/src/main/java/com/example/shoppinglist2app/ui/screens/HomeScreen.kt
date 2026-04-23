@@ -59,7 +59,7 @@ fun HomeScreen(
                     .padding(20.dp)
             ) {
                 Column {
-                    Text("🛒  ShopSathi", fontSize = 22.sp, fontWeight = FontWeight.Bold, color = Color.White)
+                    Text("ShopSathi", fontSize = 22.sp, fontWeight = FontWeight.Bold, color = Color.White)
                     Text("Your smart shopping companion", fontSize = 12.sp, color = Color(0xCCFFFFFF))
                     Spacer(Modifier.height(14.dp))
                     Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
@@ -106,7 +106,7 @@ fun HomeScreen(
         if (activeLists.isEmpty()) {
             item {
                 EmptyState(
-                    icon     = "📋",
+                    icon     = Icons.Default.Inventory2,
                     title    = "No shopping lists yet",
                     subtitle = "Tap 'Create New List' to get started"
                 )

@@ -103,7 +103,7 @@ fun EventDetailScreen(
             if (items.isEmpty()) {
                 item {
                     EmptyState(
-                        icon     = "📅",
+                        icon     = Icons.Default.CalendarMonth,
                         title    = if (isPast) "No items were saved for this day" else "No items yet",
                         subtitle = if (!isPast) "Tap '+ Add Item' to add one" else ""
                     )
@@ -143,7 +143,7 @@ fun EventDetailScreen(
                         horizontalArrangement = Arrangement.spacedBy(10.dp),
                         verticalAlignment     = Alignment.CenterVertically
                     ) {
-                        Text("🔒", fontSize = 18.sp)
+                        Icon(Icons.Default.Lock, contentDescription = null, tint = Color(0xFF065F46), modifier = Modifier.size(18.dp))
                         Column {
                             Text("Past event — view only", fontSize = 13.sp, fontWeight = FontWeight.SemiBold, color = Color(0xFF065F46))
                             Text("Items from past events are preserved for your history.",
@@ -191,7 +191,7 @@ fun EventDetailScreen(
 fun EventItemRow(item: ShoppingItem, readOnly: Boolean, onEditClick: () -> Unit, onDeleteClick: () -> Unit) {
     val qty      = if (item.quantity % 1.0 == 0.0) item.quantity.toInt().toString() else "%.2f".format(item.quantity)
     val catColor = getCategoryColor(item.category)
-    val catEmoji = getCategoryEmoji(item.category)
+    val catIcon = getCategoryIcon(item.category)
 
     Row(
         modifier = Modifier.fillMaxWidth()
@@ -208,7 +208,7 @@ fun EventItemRow(item: ShoppingItem, readOnly: Boolean, onEditClick: () -> Unit,
         Column(modifier = Modifier.weight(1f)) {
             Text(item.name, fontSize = 14.sp, fontWeight = FontWeight.SemiBold, color = SkyBlueDark)
             Row(horizontalArrangement = Arrangement.spacedBy(4.dp), verticalAlignment = Alignment.CenterVertically) {
-                Text(catEmoji, fontSize = 11.sp)
+                Icon(imageVector = catIcon, contentDescription = item.category, tint = catColor, modifier = Modifier.size(11.dp))
                 Text(item.category, fontSize = 11.sp, color = catColor, fontWeight = FontWeight.Medium)
             }
         }

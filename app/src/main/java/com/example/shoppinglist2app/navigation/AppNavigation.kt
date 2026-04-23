@@ -19,6 +19,7 @@ import com.example.shoppinglist2app.viewmodel.ShoppingViewModel
 import com.example.shoppinglist2app.navigation.NavRoutes.decodeSlash
 import kotlin.math.abs
 
+
 private enum class TopLevelSlideDirection {
     Forward,
     Backward

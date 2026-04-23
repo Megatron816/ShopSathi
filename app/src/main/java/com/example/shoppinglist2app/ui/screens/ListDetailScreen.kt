@@ -123,12 +123,12 @@ fun ListDetailScreen(
             item {
                 Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                     SkyButton("+ Add Item", Modifier.weight(1f)) { showAddDialog = true }
-                    SkyButton("🛒  Shop", Modifier.weight(1f), primary = false) { onStartShopping() }
+                    SkyButton("Shop", Modifier.weight(1f), primary = false) { onStartShopping() }
                 }
             }
 
             if (sItems.isEmpty()) {
-                item { EmptyState("📋", "No items yet", "Tap '+ Add Item' to get started") }
+                item { EmptyState(Icons.Default.Inventory2, "No items yet", "Tap '+ Add Item' to get started") }
             } else {
                 item { SectionHeader("${sItems.size} item${if (sItems.size != 1) "s" else ""}") }
                 items(sItems, key = { it.id }) { item ->
@@ -204,7 +204,7 @@ fun ListItemRow(
 ) {
     val qty  = if (item.quantity % 1.0 == 0.0) item.quantity.toInt().toString() else "%.2f".format(item.quantity)
     val catColor = getCategoryColor(item.category)
-    val catEmoji = getCategoryEmoji(item.category)
+    val catIcon = getCategoryIcon(item.category)
 
     Row(
         modifier = Modifier
@@ -232,7 +232,7 @@ fun ListItemRow(
                 PriorityBadge(item.priority)
             }
             Row(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalAlignment = Alignment.CenterVertically) {
-                Text(catEmoji, fontSize = 11.sp)
+                Icon(imageVector = catIcon, contentDescription = item.category, tint = catColor, modifier = Modifier.size(11.dp))
                 Text(item.category, fontSize = 11.sp, color = catColor, fontWeight = FontWeight.Medium)
                 if (item.price > 0)
                     Text("· ₹${"%.0f".format(item.price)}", fontSize = 11.sp, color = Color(0xFF94A3B8))

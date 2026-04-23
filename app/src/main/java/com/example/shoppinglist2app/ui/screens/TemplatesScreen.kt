@@ -41,7 +41,10 @@ fun TemplatesScreen(
         contentPadding = PaddingValues(top = 16.dp, bottom = 100.dp)
     ) {
         item {
-            Text("📑  Templates", fontSize = 22.sp, fontWeight = FontWeight.Bold, color = SkyBlueDark)
+            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                Icon(Icons.Default.Description, contentDescription = null, tint = SkyBluePrimary, modifier = Modifier.size(22.dp))
+                Text("Templates", fontSize = 22.sp, fontWeight = FontWeight.Bold, color = SkyBlueDark)
+            }
             Spacer(Modifier.height(2.dp))
             Text("Save lists as templates and reuse them", fontSize = 12.sp, color = Color(0xFF94A3B8))
         }
@@ -49,7 +52,7 @@ fun TemplatesScreen(
         if (templates.isEmpty()) {
             item {
                 EmptyState(
-                    icon     = "📋",
+                    icon     = Icons.Default.Inventory2,
                     title    = "No templates yet",
                     subtitle = "Open a list → ⋮ → Save as template"
                 )

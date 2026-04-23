@@ -6,6 +6,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Inventory2
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -80,7 +82,12 @@ fun IconRoundBtn(icon: ImageVector, desc: String, onClick: () -> Unit, modifier:
 
 // ── Empty State ───────────────────────────────────────────────────────────────
 @Composable
-fun EmptyState(icon: String = "📦", title: String = "Nothing here yet", subtitle: String = "") {
+fun EmptyState(
+    icon: ImageVector = Icons.Default.Inventory2,
+    title: String = "Nothing here yet",
+    subtitle: String = "",
+    iconDescription: String? = null
+) {
     Column(
         modifier = Modifier.fillMaxWidth().padding(vertical = 32.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -89,7 +96,9 @@ fun EmptyState(icon: String = "📦", title: String = "Nothing here yet", subtit
         Box(
             modifier = Modifier.size(60.dp).clip(CircleShape).background(SkyBlueBorder),
             contentAlignment = Alignment.Center
-        ) { Text(icon, fontSize = 28.sp) }
+        ) {
+            Icon(icon, iconDescription, tint = SkyBlueDark, modifier = Modifier.size(28.dp))
+        }
         Text(title, fontSize = 15.sp, color = SkyBlueMedium, fontWeight = FontWeight.Medium)
         if (subtitle.isNotEmpty()) Text(subtitle, fontSize = 12.sp, color = Color(0xFF94A3B8))
     }

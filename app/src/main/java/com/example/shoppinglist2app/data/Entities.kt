@@ -21,20 +21,20 @@ data class Category(
     val id: Int = 0,
     val name: String = "",
     val colorHex: String = "#607D8B",
-    val emoji: String = "📦"
+    val emoji: String = "inventory2"
 )
 
 val DEFAULT_CATEGORIES = listOf(
-    Category(name = "Vegetables",  colorHex = "#4CAF50", emoji = "🥦"),
-    Category(name = "Dairy",       colorHex = "#2196F3", emoji = "🥛"),
-    Category(name = "Meat",        colorHex = "#F44336", emoji = "🥩"),
-    Category(name = "Snacks",      colorHex = "#FFC107", emoji = "🍿"),
-    Category(name = "Beverages",   colorHex = "#9C27B0", emoji = "🧃"),
-    Category(name = "Household",   colorHex = "#FF9800", emoji = "🧹"),
-    Category(name = "Bakery",      colorHex = "#795548", emoji = "🍞"),
-    Category(name = "Frozen",      colorHex = "#00BCD4", emoji = "🧊"),
-    Category(name = "Personal",    colorHex = "#E91E63", emoji = "🧴"),
-    Category(name = "General",     colorHex = "#607D8B", emoji = "📦"),
+    Category(name = "Vegetables",  colorHex = "#4CAF50", emoji = "eco"),
+    Category(name = "Dairy",       colorHex = "#2196F3", emoji = "local_cafe"),
+    Category(name = "Meat",        colorHex = "#F44336", emoji = "lunch_dining"),
+    Category(name = "Snacks",      colorHex = "#FFC107", emoji = "fastfood"),
+    Category(name = "Beverages",   colorHex = "#9C27B0", emoji = "local_drink"),
+    Category(name = "Household",   colorHex = "#FF9800", emoji = "home"),
+    Category(name = "Bakery",      colorHex = "#795548", emoji = "bakery_dining"),
+    Category(name = "Frozen",      colorHex = "#00BCD4", emoji = "ac_unit"),
+    Category(name = "Personal",    colorHex = "#E91E63", emoji = "person"),
+    Category(name = "General",     colorHex = "#607D8B", emoji = "inventory2"),
 )
 
 // ─── Purchase History ──────────────────────────────────────────────────────────

@@ -50,7 +50,10 @@ fun CalendarScreen(
                 modifier = Modifier.fillMaxWidth().padding(top = 8.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text("📅  Calendar", fontSize = 22.sp, fontWeight = FontWeight.Bold, color = SkyBlueDark)
+                Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Icon(Icons.Default.CalendarMonth, contentDescription = null, tint = SkyBluePrimary, modifier = Modifier.size(22.dp))
+                    Text("Calendar", fontSize = 22.sp, fontWeight = FontWeight.Bold, color = SkyBlueDark)
+                }
             }
         }
 

@@ -215,12 +215,12 @@ class ShoppingViewModel(application: Application) : AndroidViewModel(application
 
     fun shareList(listName: String, items: List<ShoppingItem>) {
         val text = buildString {
-            appendLine("🛒 $listName")
+            appendLine(listName)
             appendLine("─────────────────────")
             items.groupBy { it.category }.forEach { (cat, catItems) ->
-                appendLine("\n📦 $cat")
+                appendLine("\n[$cat]")
                 catItems.forEach { item ->
-                    val check = if (item.isChecked) "✅" else "⬜"
+                    val check = if (item.isChecked) "[x]" else "[ ]"
                     val qty   = if (item.quantity % 1.0 == 0.0) item.quantity.toInt().toString()
                                 else "%.2f".format(item.quantity)
                     val price = if (item.price > 0) " — ₹${"%.2f".format(item.price)}" else ""

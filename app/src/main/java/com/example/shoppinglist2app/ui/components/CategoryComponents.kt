@@ -8,12 +8,16 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.*
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -33,17 +37,17 @@ fun getCategoryColor(name: String): Color = when (name.lowercase().trim()) {
     else                 -> CategoryGeneral
 }
 
-fun getCategoryEmoji(name: String): String = when (name.lowercase().trim()) {
-    "vegetables"  -> "🥦"
-    "dairy"       -> "🥛"
-    "meat"        -> "🥩"
-    "snacks"      -> "🍿"
-    "beverages"   -> "🧃"
-    "household"   -> "🧹"
-    "bakery"      -> "🍞"
-    "frozen"      -> "🧊"
-    "personal"    -> "🧴"
-    else          -> "📦"
+fun getCategoryIcon(name: String): ImageVector = when (name.lowercase().trim()) {
+    "vegetables"  -> Icons.Default.Eco
+    "dairy"       -> Icons.Default.LocalCafe
+    "meat"        -> Icons.Default.LunchDining
+    "snacks"      -> Icons.Default.Fastfood
+    "beverages"   -> Icons.Default.LocalDrink
+    "household"   -> Icons.Default.Home
+    "bakery"      -> Icons.Default.BakeryDining
+    "frozen"      -> Icons.Default.AcUnit
+    "personal"    -> Icons.Default.Person
+    else          -> Icons.Default.Inventory2
 }
 
 // ── Category color dot ────────────────────────────────────────────────────────
@@ -82,7 +86,12 @@ fun CategoryChip(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(5.dp)
     ) {
-        Text(category.emoji, fontSize = 14.sp)
+        Icon(
+            imageVector = getCategoryIcon(category.name),
+            contentDescription = category.name,
+            tint = textC,
+            modifier = Modifier.size(14.dp)
+        )
         Text(
             text       = category.name,
             fontSize   = 12.sp,
@@ -117,7 +126,7 @@ fun CategoryPicker(
 @Composable
 fun CategoryPill(category: String) {
     val color = getCategoryColor(category)
-    val emoji = getCategoryEmoji(category)
+    val icon = getCategoryIcon(category)
     Row(
         modifier = Modifier
             .clip(RoundedCornerShape(10.dp))
@@ -126,7 +135,7 @@ fun CategoryPill(category: String) {
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(4.dp)
     ) {
-        Text(emoji, fontSize = 11.sp)
+        Icon(imageVector = icon, contentDescription = category, tint = color, modifier = Modifier.size(11.dp))
         Text(category, fontSize = 11.sp, color = color, fontWeight = FontWeight.Medium)
     }
 }

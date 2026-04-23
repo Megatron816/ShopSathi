@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.shoppinglist2app.data.ShoppingItem
 import com.example.shoppinglist2app.ui.components.getCategoryColor
-import com.example.shoppinglist2app.ui.components.getCategoryEmoji
+import com.example.shoppinglist2app.ui.components.getCategoryIcon
 import com.example.shoppinglist2app.ui.theme.*
 import com.example.shoppinglist2app.viewmodel.ShoppingViewModel
 import kotlin.math.sin
@@ -199,7 +199,7 @@ fun ShoppingModeScreen(
         ) {
             val list = activeLists.find { it.id == listId }
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Text("🎉", fontSize = 48.sp)
+                Icon(Icons.Default.Celebration, contentDescription = null, tint = Color(0xFFF59E0B), modifier = Modifier.size(48.dp))
                 Spacer(Modifier.height(8.dp))
                 Box(
                     modifier = Modifier
@@ -225,7 +225,7 @@ fun ShoppingModeScreen(
 fun ShoppingModeItem(item: ShoppingItem, onCheck: () -> Unit) {
     val qty      = if (item.quantity % 1.0 == 0.0) item.quantity.toInt().toString() else "%.2f".format(item.quantity)
     val catColor = getCategoryColor(item.category)
-    val catEmoji = getCategoryEmoji(item.category)
+    val catIcon = getCategoryIcon(item.category)
 
     Row(
         modifier = Modifier
@@ -267,7 +267,7 @@ fun ShoppingModeItem(item: ShoppingItem, onCheck: () -> Unit) {
                 textDecoration = if (item.isChecked) TextDecoration.LineThrough else TextDecoration.None
             )
             Row(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalAlignment = Alignment.CenterVertically) {
-                Text(catEmoji, fontSize = 11.sp)
+                Icon(imageVector = catIcon, contentDescription = item.category, tint = catColor, modifier = Modifier.size(11.dp))
                 Text("$qty ${item.unit}  ·  ${item.category}", fontSize = 12.sp, color = Color(0xFF94A3B8))
             }
         }

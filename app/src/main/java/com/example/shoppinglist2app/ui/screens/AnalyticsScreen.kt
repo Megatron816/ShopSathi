@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -32,7 +34,10 @@ fun AnalyticsScreen(viewModel: ShoppingViewModel, onBack: () -> Unit) {
         contentPadding = PaddingValues(top = 16.dp, bottom = 100.dp)
     ) {
         item {
-            Text("📊  Analytics", fontSize = 22.sp, fontWeight = FontWeight.Bold, color = SkyBlueDark)
+            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                Icon(Icons.Default.Analytics, contentDescription = null, tint = SkyBluePrimary, modifier = Modifier.size(22.dp))
+                Text("Analytics", fontSize = 22.sp, fontWeight = FontWeight.Bold, color = SkyBlueDark)
+            }
         }
 
         // ── Monthly spend hero ───────────────────────────────────────────────
@@ -67,13 +72,13 @@ fun AnalyticsScreen(viewModel: ShoppingViewModel, onBack: () -> Unit) {
             ) {
                 SectionHeader("Spending by Category")
                 if (categoryBreakdown.isEmpty()) {
-                    EmptyState("📦", "No data yet", "Complete a shopping list to see breakdown")
+                    EmptyState(Icons.Default.Inventory2, "No data yet", "Complete a shopping list to see breakdown")
                 } else {
                     val maxSpend = categoryBreakdown.maxOf { it.totalSpent }.coerceAtLeast(1.0)
                     categoryBreakdown.forEach { cs ->
                         val fraction  = (cs.totalSpent / maxSpend).toFloat()
                         val catColor  = getCategoryColor(cs.category)
-                        val catEmoji  = getCategoryEmoji(cs.category)
+                        val catIcon  = getCategoryIcon(cs.category)
                         Column(modifier = Modifier.padding(vertical = 6.dp)) {
                             Row(
                                 modifier = Modifier.fillMaxWidth(),
@@ -81,7 +86,7 @@ fun AnalyticsScreen(viewModel: ShoppingViewModel, onBack: () -> Unit) {
                             ) {
                                 Row(verticalAlignment = Alignment.CenterVertically,
                                     horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                                    Text(catEmoji, fontSize = 13.sp)
+                                    Icon(imageVector = catIcon, contentDescription = cs.category, tint = catColor, modifier = Modifier.size(13.dp))
                                     Text(cs.category, fontSize = 13.sp, color = SkyBlueDark)
                                 }
                                 Text("₹${"%.0f".format(cs.totalSpent)}", fontSize = 13.sp,
@@ -110,7 +115,7 @@ fun AnalyticsScreen(viewModel: ShoppingViewModel, onBack: () -> Unit) {
             ) {
                 SectionHeader("Most Bought Items")
                 if (topItems.isEmpty()) {
-                    EmptyState("🛒", "No history yet", "Items appear here after shopping")
+                    EmptyState(Icons.Default.ShoppingCart, "No history yet", "Items appear here after shopping")
                 } else {
                     topItems.forEachIndexed { idx, item ->
                         Row(
