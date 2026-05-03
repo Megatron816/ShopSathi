@@ -9,16 +9,12 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -26,6 +22,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.example.shoppinglist2app.data.Category
 import com.example.shoppinglist2app.data.ItemFrequency
+import com.example.shoppinglist2app.data.Priority
 import com.example.shoppinglist2app.data.ShoppingItem
 import com.example.shoppinglist2app.ui.theme.*
 
@@ -53,13 +50,13 @@ fun AddItemDialog(
     suggestions: List<ItemFrequency>,
     onSuggestionQuery: (String) -> Unit,
     onDismiss: () -> Unit,
-    onAdd: (name: String, qty: Double, unit: String, category: String, price: Double) -> Unit
+    onAdd: (name: String, qty: Double, unit: String, category: String, priority: String) -> Unit
 ) {
     var itemName     by remember { mutableStateOf("") }
     var itemCategory by remember { mutableStateOf(categories.firstOrNull()?.name ?: "General") }
     var itemQuantity by remember { mutableStateOf("1") }
     var itemUnit     by remember { mutableStateOf("kg") }
-    var itemPrice    by remember { mutableStateOf("") }
+    var itemPriority by remember { mutableStateOf(Priority.MEDIUM.name) }
 
     LaunchedEffect(itemName) { onSuggestionQuery(itemName) }
 
@@ -130,6 +127,17 @@ fun AddItemDialog(
                 )
             }
 
+            // Priority picker
+            Column {
+                Text("Priority", fontSize = 11.sp, fontWeight = FontWeight.Bold,
+                    color = SkyBlueMedium, letterSpacing = 0.5.sp)
+                Spacer(Modifier.height(6.dp))
+                PrioritySelector(
+                    selectedPriority = itemPriority,
+                    onSelect = { itemPriority = it }
+                )
+            }
+
             // Qty + Unit row
             Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                 OutlinedTextField(
@@ -149,18 +157,6 @@ fun AddItemDialog(
                 )
             }
 
-            // Price (optional)
-            OutlinedTextField(
-                value         = itemPrice,
-                onValueChange = { itemPrice = it },
-                label         = { Text("Price ₹ (optional)") },
-                singleLine    = true,
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
-                modifier      = Modifier.fillMaxWidth(),
-                shape         = RoundedCornerShape(12.dp),
-                colors        = fieldColors
-            )
-
             // Buttons
             Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                 SkyButton("Add", Modifier.weight(1f), primary = true) {
@@ -170,7 +166,7 @@ fun AddItemDialog(
                             itemQuantity.toDoubleOrNull() ?: 1.0,
                             itemUnit,
                             itemCategory,
-                            itemPrice.toDoubleOrNull() ?: 0.0
+                            itemPriority
                         )
                     }
                 }
@@ -222,12 +218,13 @@ fun UnitDropdown(selected: String, onSelect: (String) -> Unit, modifier: Modifie
 fun ShoppingItemEditor(
     item: ShoppingItem,
     categories: List<Category>,
-    onEditComplete: (name: String, qty: Double, unit: String, category: String) -> Unit
+    onEditComplete: (name: String, qty: Double, unit: String, category: String, priority: String) -> Unit
 ) {
     var name     by remember(item.id) { mutableStateOf(item.name) }
     var qty      by remember(item.id) { mutableStateOf(if (item.quantity % 1.0 == 0.0) item.quantity.toInt().toString() else "%.2f".format(item.quantity)) }
     var unit     by remember(item.id) { mutableStateOf(item.unit) }
     var category by remember(item.id) { mutableStateOf(item.category) }
+    var priority by remember(item.id) { mutableStateOf(item.priority.ifBlank { Priority.MEDIUM.name }) }
 
     val fieldC = fieldColors
 
@@ -252,8 +249,45 @@ fun ShoppingItemEditor(
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
             colors = fieldC, shape = RoundedCornerShape(12.dp), modifier = Modifier.fillMaxWidth())
         CategoryPicker(categories = categories, selectedName = category, onSelect = { category = it })
+        PrioritySelector(selectedPriority = priority, onSelect = { priority = it })
         SkyButton("Save Changes", Modifier.fillMaxWidth()) {
-            onEditComplete(name.trim(), qty.toDoubleOrNull() ?: 0.0, unit, category)
+            onEditComplete(name.trim(), qty.toDoubleOrNull() ?: 0.0, unit, category, priority)
+        }
+    }
+}
+
+// ── Priority selector ─────────────────────────────────────────────────────────
+@Composable
+fun PrioritySelector(selectedPriority: String, onSelect: (String) -> Unit) {
+    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+        Priority.values().forEach { priority ->
+            val selected = selectedPriority.equals(priority.name, ignoreCase = true)
+            val bg = when (priority) {
+                Priority.HIGH -> if (selected) PriorityHigh.copy(alpha = 0.18f) else Color(0xFFFEE2E2)
+                Priority.MEDIUM -> if (selected) PriorityMedium.copy(alpha = 0.18f) else Color(0xFFFEF3C7)
+                Priority.LOW -> if (selected) PriorityLow.copy(alpha = 0.18f) else Color(0xFFDCFCE7)
+            }
+            val border = when (priority) {
+                Priority.HIGH -> PriorityHigh
+                Priority.MEDIUM -> PriorityMedium
+                Priority.LOW -> PriorityLow
+            }
+            val textColor = when (priority) {
+                Priority.HIGH -> PriorityHigh
+                Priority.MEDIUM -> PriorityMedium
+                Priority.LOW -> PriorityLow
+            }
+
+            Box(
+                modifier = Modifier
+                    .clip(RoundedCornerShape(12.dp))
+                    .background(bg)
+                    .border(1.dp, border, RoundedCornerShape(12.dp))
+                    .clickable { onSelect(priority.name) }
+                    .padding(horizontal = 12.dp, vertical = 8.dp)
+            ) {
+                Text(priority.name, fontSize = 11.sp, fontWeight = FontWeight.Bold, color = textColor)
+            }
         }
     }
 }

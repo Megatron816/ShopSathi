@@ -130,6 +130,7 @@ fun AppNavigation(viewModel: ShoppingViewModel) {
                 popEnterTransition  = { slideInHorizontally(tween(280)) { -it } + fadeIn(tween(280)) },
                 popExitTransition   = { slideOutHorizontally(tween(280)) { it } + fadeOut(tween(280)) }
             ) {
+
                 // ── Home (Lists Hub) ────────────────────────────────────────
                 composable(NavRoutes.HOME) {
                     HomeScreen(
@@ -200,7 +201,7 @@ fun AppNavigation(viewModel: ShoppingViewModel) {
 
                 // ── Analytics ─────────────────────────────────────────────────
                 composable(NavRoutes.ANALYTICS) {
-                    AnalyticsScreen(viewModel = viewModel, onBack = { navController.popBackStack() })
+                    AnalyticsScreen(viewModel = viewModel)
                 }
 
                 // ── Templates ─────────────────────────────────────────────────

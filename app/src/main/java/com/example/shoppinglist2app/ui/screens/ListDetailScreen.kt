@@ -138,8 +138,8 @@ fun ListDetailScreen(
                             ShoppingItemEditor(
                                 item       = item,
                                 categories = categories,
-                                onEditComplete = { name, qty, unit, cat ->
-                                    viewModel.updateItem(item.copy(name = name, quantity = qty, unit = unit, category = cat))
+                                onEditComplete = { name, qty, unit, cat, priority ->
+                                    viewModel.updateItem(item.copy(name = name, quantity = qty, unit = unit, category = cat, priority = priority))
                                 }
                             )
                         } else {
@@ -162,9 +162,9 @@ fun ListDetailScreen(
             suggestions       = suggestions,
             onSuggestionQuery = { viewModel.updateSuggestionQuery(it) },
             onDismiss         = { showAddDialog = false },
-            onAdd             = { name, qty, unit, cat, price ->
+            onAdd             = { name, qty, unit, cat, priority ->
                 viewModel.addItem(ShoppingItem(name = name, quantity = qty, unit = unit,
-                    category = cat, price = price, listId = listId))
+                    category = cat, priority = priority, listId = listId))
                 showAddDialog = false
             }
         )
@@ -234,8 +234,6 @@ fun ListItemRow(
             Row(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalAlignment = Alignment.CenterVertically) {
                 Icon(imageVector = catIcon, contentDescription = item.category, tint = catColor, modifier = Modifier.size(11.dp))
                 Text(item.category, fontSize = 11.sp, color = catColor, fontWeight = FontWeight.Medium)
-                if (item.price > 0)
-                    Text("· ₹${"%.0f".format(item.price)}", fontSize = 11.sp, color = Color(0xFF94A3B8))
             }
         }
 

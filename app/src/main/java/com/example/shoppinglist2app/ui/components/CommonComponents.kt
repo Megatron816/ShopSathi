@@ -142,8 +142,9 @@ fun BackButton(onClick: () -> Unit) {
 fun PriorityBadge(priority: String) {
     val (color, label) = when (priority) {
         "HIGH" -> PriorityHigh to "HIGH"
+        "MEDIUM" -> PriorityMedium to "MEDIUM"
         "LOW"  -> PriorityLow  to "LOW"
-        else   -> PriorityMedium to "MED"
+        else   -> PriorityMedium to priority.uppercase()
     }
     Box(
         modifier = Modifier

@@ -1,0 +1,8 @@
+<resources>
+    <style name="Theme.ShoppingList2App" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">#E0F2FE</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
+        <item name="postSplashScreenTheme">@style/Theme.ShoppingList2App.Base</item>
+    </style>
+</resources>
+

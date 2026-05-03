@@ -116,8 +116,8 @@ fun EventDetailScreen(
                             ShoppingItemEditor(
                                 item       = item,
                                 categories = categories,
-                                onEditComplete = { name, qty, unit, cat ->
-                                    viewModel.updateItem(item.copy(name = name, quantity = qty, unit = unit, category = cat))
+                                onEditComplete = { name, qty, unit, cat, priority ->
+                                    viewModel.updateItem(item.copy(name = name, quantity = qty, unit = unit, category = cat, priority = priority))
                                 }
                             )
                         } else {
@@ -178,8 +178,8 @@ fun EventDetailScreen(
             suggestions       = suggestions,
             onSuggestionQuery = { viewModel.updateSuggestionQuery(it) },
             onDismiss         = { showAddDialog = false },
-            onAdd             = { name, qty, unit, cat, _ ->
-                viewModel.addItemToDate(ShoppingItem(name = name, quantity = qty, unit = unit, category = cat), date)
+            onAdd             = { name, qty, unit, cat, priority ->
+                viewModel.addItemToDate(ShoppingItem(name = name, quantity = qty, unit = unit, category = cat, priority = priority), date)
                 showAddDialog = false
             }
         )

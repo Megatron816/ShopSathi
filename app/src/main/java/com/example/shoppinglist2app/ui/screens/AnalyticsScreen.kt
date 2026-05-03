@@ -23,7 +23,7 @@ import com.example.shoppinglist2app.ui.theme.*
 import com.example.shoppinglist2app.viewmodel.ShoppingViewModel
 
 @Composable
-fun AnalyticsScreen(viewModel: ShoppingViewModel, onBack: () -> Unit) {
+fun AnalyticsScreen(viewModel: ShoppingViewModel) {
     val monthlySpend      by viewModel.monthlySpend.collectAsState()
     val categoryBreakdown by viewModel.categoryBreakdown.collectAsState()
     val topItems          by viewModel.topItems.collectAsState()

@@ -22,9 +22,11 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.foundation.text.KeyboardOptions
 import com.example.shoppinglist2app.data.ShoppingItem
 import com.example.shoppinglist2app.ui.components.getCategoryColor
 import com.example.shoppinglist2app.ui.components.getCategoryIcon
@@ -61,6 +63,8 @@ fun ShoppingModeScreen(
     val unchecked = items.filter { !it.isChecked }
     val checked   = items.filter  { it.isChecked }
     val allDone   = items.isNotEmpty() && unchecked.isEmpty()
+    var priceEntryItem by remember { mutableStateOf<ShoppingItem?>(null) }
+    var purchasedPrice by remember { mutableStateOf("") }
 
     // Confetti animation
     val infiniteAnim = rememberInfiniteTransition(label = "confetti")
@@ -165,7 +169,10 @@ fun ShoppingModeScreen(
             ) {
                 // Unchecked items — BIG checkboxes, tap to check
                 items(unchecked, key = { it.id }) { item ->
-                    ShoppingModeItem(item = item, onCheck = { viewModel.checkItem(item.id, true) })
+                    ShoppingModeItem(item = item, onCheck = {
+                        priceEntryItem = item
+                        purchasedPrice = if (item.price > 0) "%.2f".format(item.price) else ""
+                    })
                 }
 
                 // Checked section — moves down after check
@@ -207,6 +214,7 @@ fun ShoppingModeScreen(
                         .clip(RoundedCornerShape(20.dp))
                         .background(SkyBluePrimary)
                         .clickable {
+                            // Persist entered prices before archiving the list.
                             list?.let { viewModel.markListDone(it, items) }
                             onDone()
                         }
@@ -217,6 +225,54 @@ fun ShoppingModeScreen(
                 }
             }
         }
+    }
+
+    if (priceEntryItem != null) {
+        AlertDialog(
+            onDismissRequest = {
+                priceEntryItem = null
+                purchasedPrice = ""
+            },
+            title = { Text("Enter purchased price") },
+            text = {
+                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Text(priceEntryItem?.name ?: "")
+                    OutlinedTextField(
+                        value = purchasedPrice,
+                        onValueChange = { purchasedPrice = it },
+                        label = { Text("Price per unit") },
+                        singleLine = true,
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
+            },
+            confirmButton = {
+                TextButton(onClick = {
+                    val item = priceEntryItem
+                    if (item != null) {
+                        viewModel.updateItem(
+                            item.copy(
+                                price = purchasedPrice.toDoubleOrNull() ?: 0.0,
+                                isChecked = true
+                            )
+                        )
+                    }
+                    priceEntryItem = null
+                    purchasedPrice = ""
+                }) {
+                    Text("Save")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = {
+                    priceEntryItem = null
+                    purchasedPrice = ""
+                }) {
+                    Text("Cancel")
+                }
+            }
+        )
     }
 }
 
