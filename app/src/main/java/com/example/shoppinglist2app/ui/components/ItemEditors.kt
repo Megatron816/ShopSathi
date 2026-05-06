@@ -262,31 +262,34 @@ fun PrioritySelector(selectedPriority: String, onSelect: (String) -> Unit) {
     Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
         Priority.values().forEach { priority ->
             val selected = selectedPriority.equals(priority.name, ignoreCase = true)
-            val bg = when (priority) {
-                Priority.HIGH -> if (selected) PriorityHigh.copy(alpha = 0.18f) else Color(0xFFFEE2E2)
-                Priority.MEDIUM -> if (selected) PriorityMedium.copy(alpha = 0.18f) else Color(0xFFFEF3C7)
-                Priority.LOW -> if (selected) PriorityLow.copy(alpha = 0.18f) else Color(0xFFDCFCE7)
-            }
-            val border = when (priority) {
-                Priority.HIGH -> PriorityHigh
-                Priority.MEDIUM -> PriorityMedium
-                Priority.LOW -> PriorityLow
-            }
-            val textColor = when (priority) {
+
+            val color = when (priority) {
                 Priority.HIGH -> PriorityHigh
                 Priority.MEDIUM -> PriorityMedium
                 Priority.LOW -> PriorityLow
             }
 
+            val bg = if (selected) color else color.copy(alpha = 0.12f)
+            val textC = if (selected) Color.White else color
+
             Box(
                 modifier = Modifier
-                    .clip(RoundedCornerShape(12.dp))
+                    .clip(RoundedCornerShape(20.dp))
                     .background(bg)
-                    .border(1.dp, border, RoundedCornerShape(12.dp))
+                    .border(
+                        width = if (selected) 0.dp else 1.dp,
+                        color = color.copy(alpha = 0.4f),
+                        shape = RoundedCornerShape(20.dp)
+                    )
                     .clickable { onSelect(priority.name) }
-                    .padding(horizontal = 12.dp, vertical = 8.dp)
+                    .padding(horizontal = 12.dp, vertical = 7.dp)
             ) {
-                Text(priority.name, fontSize = 11.sp, fontWeight = FontWeight.Bold, color = textColor)
+                Text(
+                    priority.name,
+                    fontSize = 11.sp,
+                    fontWeight = if (selected) FontWeight.ExtraBold else FontWeight.Bold,
+                    color = textC
+                )
             }
         }
     }

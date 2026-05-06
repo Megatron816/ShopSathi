@@ -13,6 +13,9 @@ interface ShoppingDao {
     @Query("SELECT * FROM shopping_lists WHERE isArchived = 1 ORDER BY createdAt DESC")
     fun getArchivedLists(): Flow<List<ShoppingList>>
 
+    @Query("SELECT * FROM shopping_lists WHERE id = :id")
+    suspend fun getListById(id: Int): ShoppingList?
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertList(list: ShoppingList): Long
 
@@ -51,7 +54,7 @@ interface ShoppingDao {
     fun getTotalEstimate(listId: Int): Flow<Double>
 
     @Upsert
-    suspend fun upsertItem(item: ShoppingItem)
+    suspend fun upsertItem(item: ShoppingItem): Long
 
     @Delete
     suspend fun deleteItem(item: ShoppingItem)
@@ -146,4 +149,20 @@ interface ShoppingDao {
 
     @Query("SELECT COUNT(*) FROM template_items WHERE templateId = :templateId")
     suspend fun getTemplateItemCount(templateId: Int): Int
+
+    // ── Event Notifications ──────────────────────────────────────────────────────
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertNotification(notification: EventNotification): Long
+
+    @Query("SELECT * FROM event_notifications WHERE isNotified = 0 ORDER BY scheduledDate ASC")
+    fun getPendingNotifications(): Flow<List<EventNotification>>
+
+    @Query("UPDATE event_notifications SET isNotified = 1 WHERE id = :id")
+    suspend fun markNotificationAsSent(id: Int)
+
+    @Query("DELETE FROM event_notifications WHERE itemId = :itemId")
+    suspend fun deleteNotificationForItem(itemId: Int)
+
+    @Query("SELECT * FROM event_notifications WHERE id = :id")
+    suspend fun getNotification(id: Int): EventNotification?
 }

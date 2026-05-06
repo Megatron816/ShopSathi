@@ -13,9 +13,10 @@ import kotlinx.coroutines.launch
         Category::class,
         PurchaseHistory::class,
         ListTemplate::class,
-        TemplateItem::class
+        TemplateItem::class,
+        EventNotification::class
     ],
-    version = 4,
+    version = 6,
     exportSchema = false
 )
 abstract class ShoppingDatabase : RoomDatabase() {

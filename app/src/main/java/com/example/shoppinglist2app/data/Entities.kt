@@ -11,7 +11,8 @@ data class ShoppingList(
     val name: String = "",
     val createdAt: Long = System.currentTimeMillis(),
     val isArchived: Boolean = false,
-    val totalBudget: Double = 0.0
+    val totalBudget: Double = 0.0,
+    val dueDate: String = "" // ISO format: yyyy-MM-dd (optional)
 )
 
 // ─── Category ─────────────────────────────────────────────────────────────────

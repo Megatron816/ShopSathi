@@ -26,6 +26,8 @@ import com.example.shoppinglist2app.ui.components.*
 import com.example.shoppinglist2app.ui.theme.*
 import com.example.shoppinglist2app.viewmodel.ShoppingViewModel
 import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 @Composable
@@ -160,8 +162,8 @@ fun HomeScreen(
     if (showCreateDialog) {
         CreateListDialog(
             onDismiss = { showCreateDialog = false },
-            onCreate  = { name, budget ->
-                viewModel.createList(name, budget)
+            onCreate  = { name, budget, dueDate ->
+                viewModel.createList(name, budget, dueDate)
                 showCreateDialog = false
             }
         )
@@ -228,6 +230,53 @@ fun ListCard(
                 df.format(Date(list.createdAt)),
                 fontSize = 11.sp, color = Color(0xFF94A3B8)
             )
+            if (list.dueDate.isNotEmpty()) {
+                val dueInfo = try {
+                    val dueLocalDate = LocalDate.parse(list.dueDate)
+                    val today = LocalDate.now()
+                    val dueDateFormatted = dueLocalDate.format(DateTimeFormatter.ofPattern("MMM d, yyyy"))
+                    val daysUntil = java.time.temporal.ChronoUnit.DAYS.between(today, dueLocalDate)
+
+                    val text = when {
+                        daysUntil < 0 -> "Overdue"
+                        daysUntil == 0L -> "Due Today"
+                        daysUntil == 1L -> "Due Tomorrow"
+                        daysUntil <= 7 -> "Due in $daysUntil days"
+                        else -> "Due: $dueDateFormatted"
+                    }
+
+                    val color = when {
+                        daysUntil < 0 -> Color.Red
+                        daysUntil <= 1 -> Color(0xFFFF6B6B)
+                        daysUntil <= 7 -> Color(0xFFFFA500)
+                        else -> Color(0xFF4CAF50)
+                    }
+                    text to color
+                } catch (e: Exception) {
+                    null
+                }
+
+                dueInfo?.let { (dueText, dueColor) ->
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(4.dp),
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Icon(
+                            Icons.Default.Event,
+                            contentDescription = "Due date",
+                            tint = dueColor,
+                            modifier = Modifier.size(14.sp.value.dp)
+                        )
+                        Text(
+                            dueText,
+                            fontSize = 11.sp,
+                            color = dueColor,
+                            fontWeight = FontWeight.Medium
+                        )
+                    }
+                }
+            }
             if (list.totalBudget > 0) {
                 Text(
                     "Budget: ₹${"%.0f".format(list.totalBudget)}",
@@ -265,9 +314,13 @@ fun ListCard(
 
 // ── Create List Dialog ────────────────────────────────────────────────────────
 @Composable
-fun CreateListDialog(onDismiss: () -> Unit, onCreate: (String, Double) -> Unit) {
+fun CreateListDialog(onDismiss: () -> Unit, onCreate: (String, Double, String) -> Unit) {
     var name   by remember { mutableStateOf("") }
     var budget by remember { mutableStateOf("") }
+    var dueDate by remember { mutableStateOf("") }
+    var showDatePicker by remember { mutableStateOf(false) }
+
+    val dateFormatter = remember { SimpleDateFormat("MMM d, yyyy", Locale.getDefault()) }
 
     AlertDialog(
         onDismissRequest = onDismiss,
@@ -298,6 +351,49 @@ fun CreateListDialog(onDismiss: () -> Unit, onCreate: (String, Double) -> Unit) 
                         keyboardType = androidx.compose.ui.text.input.KeyboardType.Decimal
                     )
                 )
+
+                // Date picker button
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(12.dp))
+                        .border(1.dp, Color(0xFFBEBEBE), RoundedCornerShape(12.dp))
+                        .clickable { showDatePicker = true }
+                        .padding(12.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        Icon(
+                            Icons.Default.Event,
+                            contentDescription = "Select date",
+                            tint = if (dueDate.isEmpty()) Color(0xFF94A3B8) else SkyBlueDark,
+                            modifier = Modifier.size(18.dp)
+                        )
+                        Text(
+                            if (dueDate.isEmpty()) "Select Due Date (optional)" else dueDate,
+                            fontSize = 14.sp,
+                            color = if (dueDate.isEmpty()) Color(0xFF94A3B8) else SkyBlueDark
+                        )
+                    }
+                    if (dueDate.isNotEmpty()) {
+                        IconButton(
+                            onClick = { dueDate = "" },
+                            modifier = Modifier.size(24.dp)
+                        ) {
+                            Icon(
+                                Icons.Default.Close,
+                                contentDescription = "Clear date",
+                                tint = Color(0xFF94A3B8),
+                                modifier = Modifier.size(16.dp)
+                            )
+                        }
+                    }
+                }
             }
         },
         confirmButton = {
@@ -306,10 +402,21 @@ fun CreateListDialog(onDismiss: () -> Unit, onCreate: (String, Double) -> Unit) 
                 horizontalArrangement = Arrangement.spacedBy(10.dp)
             ) {
                 SkyButton("Create", Modifier.weight(1f)) {
-                    if (name.isNotBlank()) onCreate(name.trim(), budget.toDoubleOrNull() ?: 0.0)
+                    if (name.isNotBlank()) onCreate(name.trim(), budget.toDoubleOrNull() ?: 0.0, dueDate)
                 }
                 SkyButton("Cancel", Modifier.weight(1f), primary = false) { onDismiss() }
             }
         }
     )
+
+    // Date picker dialog
+    if (showDatePicker) {
+        DatePickerDialog(
+            onDateSelected = { selectedDate ->
+                dueDate = selectedDate
+                showDatePicker = false
+            },
+            onDismiss = { showDatePicker = false }
+        )
+    }
 }

@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Intent
 import androidx.lifecycle.*
 import com.example.shoppinglist2app.data.*
+import com.example.shoppinglist2app.notifications.NotificationScheduler
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -108,8 +109,8 @@ class ShoppingViewModel(application: Application) : AndroidViewModel(application
 
     fun selectList(id: Int) { _selectedListId.value = id }
 
-    fun createList(name: String, budget: Double = 0.0) {
-        viewModelScope.launch { dao.insertList(ShoppingList(name = name, totalBudget = budget)) }
+    fun createList(name: String, budget: Double = 0.0, dueDate: String = "") {
+        viewModelScope.launch { dao.insertList(ShoppingList(name = name, totalBudget = budget, dueDate = dueDate)) }
     }
 
     fun archiveList(id: Int)  { viewModelScope.launch { dao.archiveList(id) } }
@@ -125,17 +126,58 @@ class ShoppingViewModel(application: Application) : AndroidViewModel(application
     fun addItem(item: ShoppingItem) {
         val d = item.eventDate.ifBlank { LocalDate.now().toString() }
         viewModelScope.launch {
-            dao.upsertItem(item.copy(
+            val updatedItem = item.copy(
                 eventDate   = d,
                 eventStatus = EventStatus.forDate(d),
                 listId      = _selectedListId.value
-            ))
+            )
+            val itemId = dao.upsertItem(updatedItem).toInt()
+
+            // Schedule notification for future dates
+            if (EventStatus.forDate(d) == EventStatus.FUTURE) {
+                scheduleNotificationForItem(itemId, updatedItem, d)
+            }
         }
     }
 
     fun addItemToDate(item: ShoppingItem, date: String) {
         viewModelScope.launch {
-            dao.upsertItem(item.copy(eventDate = date, eventStatus = EventStatus.forDate(date)))
+            val updatedItem = item.copy(eventDate = date, eventStatus = EventStatus.forDate(date))
+            val itemId = dao.upsertItem(updatedItem).toInt()
+
+            // Schedule notification for future dates
+            if (EventStatus.forDate(date) == EventStatus.FUTURE) {
+                scheduleNotificationForItem(itemId, updatedItem, date)
+            }
+        }
+    }
+
+    private suspend fun scheduleNotificationForItem(itemId: Int, item: ShoppingItem, date: String) {
+        try {
+            val list = dao.getListById(item.listId)
+            val listName = list?.name ?: "Shopping List"
+
+            val notification = EventNotification(
+                itemId = itemId,
+                listName = listName,
+                itemName = item.name,
+                scheduledDate = date,
+                scheduledTime = "09:00" // Notify at 9 AM on the scheduled date
+            )
+
+            dao.insertNotification(notification)
+
+            // Schedule with WorkManager
+            NotificationScheduler.scheduleNotification(
+                context = app,
+                itemName = item.name,
+                listName = listName,
+                scheduledDate = date,
+                scheduledTime = "09:00",
+                notificationId = itemId
+            )
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 
@@ -148,7 +190,13 @@ class ShoppingViewModel(application: Application) : AndroidViewModel(application
 
     fun deleteItem(item: ShoppingItem) {
         stopEditing(item.id)
-        viewModelScope.launch { dao.deleteItem(item) }
+        viewModelScope.launch {
+            // Cancel notification for this item
+            dao.deleteNotificationForItem(item.id)
+            NotificationScheduler.cancelNotification(app, item.id)
+
+            dao.deleteItem(item)
+        }
     }
 
     fun deleteEvent(date: String) { viewModelScope.launch { dao.deleteAllItemsForDate(date) } }
@@ -248,4 +296,8 @@ class ShoppingViewModel(application: Application) : AndroidViewModel(application
     fun isToday(date: String)  = date == LocalDate.now().toString()
     fun isPast(date: String)   = try { LocalDate.parse(date).isBefore(LocalDate.now()) } catch (e: Exception) { false }
     fun isFuture(date: String) = try { LocalDate.parse(date).isAfter(LocalDate.now()) }  catch (e: Exception) { false }
+
+    fun showTestNotification(itemName: String, listName: String) {
+        NotificationScheduler.showTestNotification(app, itemName, listName)
+    }
 }

@@ -7,6 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.example.shoppinglist2app.navigation.AppNavigation
+import com.example.shoppinglist2app.notifications.NotificationScheduler
 import com.example.shoppinglist2app.ui.theme.ShoppingList2AppTheme
 import com.example.shoppinglist2app.viewmodel.ShoppingViewModel
 
@@ -24,6 +25,10 @@ class MainActivity : ComponentActivity() {
         }
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        
+        // Initialize notification channel
+        NotificationScheduler.initializeNotificationChannel(this)
+        
         setContent {
             ShoppingList2AppTheme {
                 val viewModel: ShoppingViewModel = viewModel()
