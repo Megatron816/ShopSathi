@@ -22,7 +22,7 @@ data class Category(
     val id: Int = 0,
     val name: String = "",
     val colorHex: String = "#607D8B",
-    val emoji: String = "inventory2"
+    val emoji: String = "shopping_cart"
 )
 
 val DEFAULT_CATEGORIES = listOf(
@@ -35,7 +35,7 @@ val DEFAULT_CATEGORIES = listOf(
     Category(name = "Bakery",      colorHex = "#795548", emoji = "bakery_dining"),
     Category(name = "Frozen",      colorHex = "#00BCD4", emoji = "ac_unit"),
     Category(name = "Personal",    colorHex = "#E91E63", emoji = "person"),
-    Category(name = "General",     colorHex = "#607D8B", emoji = "inventory2"),
+    Category(name = "General",     colorHex = "#607D8B", emoji = "shopping_cart"),
 )
 
 // ─── Purchase History ──────────────────────────────────────────────────────────

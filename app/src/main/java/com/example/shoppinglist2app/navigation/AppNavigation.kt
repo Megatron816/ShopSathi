@@ -95,7 +95,7 @@ fun AppNavigation(viewModel: ShoppingViewModel) {
         ) { padding ->
             NavHost(
                 navController    = navController,
-                startDestination = NavRoutes.HOME,
+                startDestination = NavRoutes.SPLASH,
                 modifier         = Modifier.padding(padding).then(swipeModifier),
                 enterTransition  = {
                     val isTopLevelTransition =
@@ -130,6 +130,17 @@ fun AppNavigation(viewModel: ShoppingViewModel) {
                 popEnterTransition  = { slideInHorizontally(tween(280)) { -it } + fadeIn(tween(280)) },
                 popExitTransition   = { slideOutHorizontally(tween(280)) { it } + fadeOut(tween(280)) }
             ) {
+
+                // ── Splash Screen ──────────────────────────────────────────
+                composable(NavRoutes.SPLASH) {
+                    SplashScreen(
+                        onFinished = {
+                            navController.navigate(NavRoutes.HOME) {
+                                popUpTo(NavRoutes.SPLASH) { inclusive = true }
+                            }
+                        }
+                    )
+                }
 
                 // ── Home (Lists Hub) ────────────────────────────────────────
                 composable(NavRoutes.HOME) {

@@ -128,7 +128,7 @@ fun ListDetailScreen(
             }
 
             if (sItems.isEmpty()) {
-                item { EmptyState(Icons.Default.Inventory2, "No items yet", "Tap '+ Add Item' to get started") }
+                item { EmptyState(Icons.Default.ShoppingCart, "No items yet", "Tap '+ Add Item' to get started") }
             } else {
                 item { SectionHeader("${sItems.size} item${if (sItems.size != 1) "s" else ""}") }
                 items(sItems, key = { it.id }) { item ->

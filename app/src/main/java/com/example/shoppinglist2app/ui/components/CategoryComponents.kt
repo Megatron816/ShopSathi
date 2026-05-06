@@ -47,7 +47,7 @@ fun getCategoryIcon(name: String): ImageVector = when (name.lowercase().trim()) 
     "bakery"      -> Icons.Default.BakeryDining
     "frozen"      -> Icons.Default.AcUnit
     "personal"    -> Icons.Default.Person
-    else          -> Icons.Default.Inventory2
+    else          -> Icons.Default.ShoppingCart
 }
 
 // ── Category color dot ────────────────────────────────────────────────────────

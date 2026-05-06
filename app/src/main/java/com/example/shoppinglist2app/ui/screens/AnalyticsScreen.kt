@@ -72,7 +72,7 @@ fun AnalyticsScreen(viewModel: ShoppingViewModel) {
             ) {
                 SectionHeader("Spending by Category")
                 if (categoryBreakdown.isEmpty()) {
-                    EmptyState(Icons.Default.Inventory2, "No data yet", "Complete a shopping list to see breakdown")
+                    EmptyState(Icons.Default.ShoppingCart, "No data yet", "Complete a shopping list to see breakdown")
                 } else {
                     val maxSpend = categoryBreakdown.maxOf { it.totalSpent }.coerceAtLeast(1.0)
                     categoryBreakdown.forEach { cs ->

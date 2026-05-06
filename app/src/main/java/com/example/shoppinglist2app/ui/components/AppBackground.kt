@@ -40,7 +40,7 @@ private val BG_ICONS = listOf(
     BgIcon(Icons.Default.BakeryDining, 0.76f, 0.70f, 28f, 0.07f, -5f),
     BgIcon(Icons.Default.BreakfastDining, -0.20f, 0.88f, 26f, 0.05f, 10f),
     BgIcon(Icons.Default.AcUnit, 0.20f, 0.10f, 24f, 0.05f, -15f),
-    BgIcon(Icons.Default.ShoppingBag, -0.40f, -0.30f, 24f, 0.04f, 5f),
+    BgIcon(Icons.Default.ShoppingCart, -0.40f, -0.30f, 24f, 0.04f, 5f),
 )
 
 @Composable

@@ -52,7 +52,7 @@ fun TemplatesScreen(
         if (templates.isEmpty()) {
             item {
                 EmptyState(
-                    icon     = Icons.Default.Inventory2,
+                    icon     = Icons.Default.ShoppingCart,
                     title    = "No templates yet",
                     subtitle = "Open a list → ⋮ → Save as template"
                 )

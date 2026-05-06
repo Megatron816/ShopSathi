@@ -108,7 +108,7 @@ fun HomeScreen(
         if (activeLists.isEmpty()) {
             item {
                 EmptyState(
-                    icon     = Icons.Default.Inventory2,
+                    icon     = Icons.Default.ShoppingCart,
                     title    = "No shopping lists yet",
                     subtitle = "Tap 'Create New List' to get started"
                 )

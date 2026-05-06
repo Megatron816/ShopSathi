@@ -1,6 +1,7 @@
 package com.example.shoppinglist2app.navigation
 
 object NavRoutes {
+    const val SPLASH    = "splash"
     const val HOME      = "home"
     const val CALENDAR  = "calendar"
     const val ANALYTICS = "analytics"

@@ -7,7 +7,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Inventory2
+import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -83,7 +83,7 @@ fun IconRoundBtn(icon: ImageVector, desc: String, onClick: () -> Unit, modifier:
 // ── Empty State ───────────────────────────────────────────────────────────────
 @Composable
 fun EmptyState(
-    icon: ImageVector = Icons.Default.Inventory2,
+    icon: ImageVector = Icons.Default.ShoppingCart,
     title: String = "Nothing here yet",
     subtitle: String = "",
     iconDescription: String? = null
