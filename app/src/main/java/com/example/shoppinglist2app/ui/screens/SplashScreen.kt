@@ -24,7 +24,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.shoppinglist2app.ui.theme.SkyBlueDark
-import com.example.shoppinglist2app.ui.theme.SkyBlueLight
 import com.example.shoppinglist2app.ui.theme.SkyBluePrimary
 
 @Composable
@@ -47,7 +46,7 @@ fun SplashScreen(onFinished: () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(SkyBlueLight),
+            .background(SkyBlueDark),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
@@ -63,7 +62,7 @@ fun SplashScreen(onFinished: () -> Unit) {
             Icon(
                 imageVector = Icons.Default.ShoppingCart,
                 contentDescription = "Shopping Cart Logo",
-                tint = SkyBluePrimary,
+                tint = SkyBlueDark,
                 modifier = Modifier.size(70.dp)
             )
         }
@@ -75,7 +74,7 @@ fun SplashScreen(onFinished: () -> Unit) {
             text = "ShopSathi",
             fontSize = 48.sp,
             fontWeight = FontWeight.ExtraBold,
-            color = SkyBlueDark,
+            color = Color.White,
             letterSpacing = 1.sp
         )
 
@@ -102,9 +101,9 @@ private fun SplashLoadingAnimation() {
 
     val shimmerBrush = Brush.linearGradient(
         colors = listOf(
-            Color(0x1A0284C7),
-            Color(0x550284C7),
-            Color(0x1A0284C7)
+            Color(0x33BAE6FD),
+            Color(0x88BAE6FD),
+            Color(0x33BAE6FD)
         ),
         start = Offset(shimmerOffset - 220f, 0f),
         end = Offset(shimmerOffset, 220f)

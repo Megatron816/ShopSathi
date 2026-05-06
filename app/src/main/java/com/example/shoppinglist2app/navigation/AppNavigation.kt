@@ -2,6 +2,7 @@ package com.example.shoppinglist2app.navigation
 
 import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.material3.Scaffold
@@ -11,6 +12,8 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.*
 import com.example.shoppinglist2app.ui.components.BottomNavBar
 import com.example.shoppinglist2app.ui.components.AppBackground
@@ -84,150 +87,177 @@ fun AppNavigation(viewModel: ShoppingViewModel) {
         Modifier
     }
 
-    AppBackground {
-        Scaffold(
-            containerColor = Color.Transparent,
-            bottomBar = {
-                if (showBottomBar) {
-                    BottomNavBar(currentRoute = currentRoute, onNavigate = navigateTopLevel)
-                }
-            }
-        ) { padding ->
-            NavHost(
-                navController    = navController,
-                startDestination = NavRoutes.SPLASH,
-                modifier         = Modifier.padding(padding).then(swipeModifier),
-                enterTransition  = {
-                    val isTopLevelTransition =
-                        initialState.destination.route in NavRoutes.topLevel &&
-                            targetState.destination.route in NavRoutes.topLevel
+    val isSplash = currentRoute == NavRoutes.SPLASH
 
-                    when {
-                        isTopLevelTransition && topLevelSlideDirection == TopLevelSlideDirection.Backward -> {
-                            slideInHorizontally(tween(280)) { -it } + fadeIn(tween(280))
-                        }
-                        isTopLevelTransition -> {
-                            slideInHorizontally(tween(280)) { it } + fadeIn(tween(280))
-                        }
-                        else -> slideInHorizontally(tween(280)) { it } + fadeIn(tween(280))
+    if (isSplash) {
+        NavHost(
+            navController    = navController,
+            startDestination = NavRoutes.SPLASH,
+            modifier         = Modifier.fillMaxSize(),
+            enterTransition  = { fadeIn(tween(400)) },
+            exitTransition   = { fadeOut(tween(400)) }
+        ) {
+            addNavigationGraph(
+                navController = navController,
+                viewModel = viewModel,
+                onSplashFinished = {
+                    navController.navigate(NavRoutes.HOME) {
+                        popUpTo(NavRoutes.SPLASH) { inclusive = true }
                     }
-                },
-                exitTransition   = {
-                    val isTopLevelTransition =
-                        initialState.destination.route in NavRoutes.topLevel &&
-                            targetState.destination.route in NavRoutes.topLevel
-
-                    when {
-                        isTopLevelTransition && topLevelSlideDirection == TopLevelSlideDirection.Backward -> {
-                            slideOutHorizontally(tween(280)) { it } + fadeOut(tween(280))
-                        }
-                        isTopLevelTransition -> {
-                            slideOutHorizontally(tween(280)) { -it } + fadeOut(tween(280))
-                        }
-                        else -> slideOutHorizontally(tween(280)) { -it } + fadeOut(tween(280))
+                }
+            )
+        }
+    } else {
+        AppBackground {
+            Scaffold(
+                containerColor = Color.Transparent,
+                bottomBar = {
+                    if (showBottomBar) {
+                        BottomNavBar(currentRoute = currentRoute, onNavigate = navigateTopLevel)
                     }
-                },
-                popEnterTransition  = { slideInHorizontally(tween(280)) { -it } + fadeIn(tween(280)) },
-                popExitTransition   = { slideOutHorizontally(tween(280)) { it } + fadeOut(tween(280)) }
-            ) {
+                }
+            ) { padding ->
+                NavHost(
+                    navController    = navController,
+                    startDestination = NavRoutes.SPLASH,
+                    modifier         = Modifier.padding(padding).then(swipeModifier),
+                    enterTransition  = {
+                        val isTopLevelTransition =
+                            initialState.destination.route in NavRoutes.topLevel &&
+                                targetState.destination.route in NavRoutes.topLevel
 
-                // ── Splash Screen ──────────────────────────────────────────
-                composable(NavRoutes.SPLASH) {
-                    SplashScreen(
-                        onFinished = {
-                            navController.navigate(NavRoutes.HOME) {
-                                popUpTo(NavRoutes.SPLASH) { inclusive = true }
+                        when {
+                            isTopLevelTransition && topLevelSlideDirection == TopLevelSlideDirection.Backward -> {
+                                slideInHorizontally(tween(280)) { -it } + fadeIn(tween(280))
                             }
-                        }
-                    )
-                }
-
-                // ── Home (Lists Hub) ────────────────────────────────────────
-                composable(NavRoutes.HOME) {
-                    HomeScreen(
-                        viewModel = viewModel,
-                        onOpenList = { id ->
-                            val list = viewModel.activeLists.value.find { it.id == id }
-                                ?: viewModel.archivedLists.value.find { it.id == id }
-                            viewModel.selectList(id)
-                            navController.navigate(NavRoutes.listDetail(id, list?.name ?: "List"))
-                        }
-                    )
-                }
-
-                // ── List Detail ──────────────────────────────────────────────
-                composable(NavRoutes.LIST_DETAIL) { back ->
-                    val listId   = back.arguments?.getString("listId")?.toIntOrNull() ?: 0
-                    val listName = back.arguments?.getString("listName")?.decodeSlash() ?: "List"
-                    viewModel.selectList(listId)
-                    ListDetailScreen(
-                        viewModel       = viewModel,
-                        listId          = listId,
-                        listName        = listName,
-                        onStartShopping = { navController.navigate(NavRoutes.shoppingMode(listId, listName)) },
-                        onBack          = { navController.popBackStack() }
-                    )
-                }
-
-                // ── Shopping Mode ────────────────────────────────────────────
-                composable(NavRoutes.SHOPPING_MODE) { back ->
-                    val listId   = back.arguments?.getString("listId")?.toIntOrNull() ?: 0
-                    val listName = back.arguments?.getString("listName")?.decodeSlash() ?: "List"
-                    viewModel.selectList(listId)
-                    ShoppingModeScreen(
-                        listId    = listId,
-                        listName  = listName,
-                        viewModel = viewModel,
-                        onBack    = { navController.popBackStack() },
-                        onDone    = {
-                            navController.navigate(NavRoutes.HOME) {
-                                popUpTo(NavRoutes.HOME) { inclusive = true }
+                            isTopLevelTransition -> {
+                                slideInHorizontally(tween(280)) { it } + fadeIn(tween(280))
                             }
+                            else -> slideInHorizontally(tween(280)) { it } + fadeIn(tween(280))
                         }
-                    )
-                }
+                    },
+                    exitTransition   = {
+                        val isTopLevelTransition =
+                            initialState.destination.route in NavRoutes.topLevel &&
+                                targetState.destination.route in NavRoutes.topLevel
 
-                // ── Calendar ─────────────────────────────────────────────────
-                composable(NavRoutes.CALENDAR) {
-                    CalendarScreen(
-                        viewModel      = viewModel,
-                        onDateSelected = { date ->
-                            viewModel.selectDate(date)
-                            navController.navigate(NavRoutes.event(date))
-                        },
-                        onBack = { navController.popBackStack() }
-                    )
-                }
-
-                // ── Event Detail ──────────────────────────────────────────────
-                composable(NavRoutes.EVENT) { back ->
-                    val date = back.arguments?.getString("date") ?: ""
-                    viewModel.selectDate(date)
-                    EventDetailScreen(
-                        date      = date,
-                        viewModel = viewModel,
-                        onBack    = { navController.popBackStack() }
-                    )
-                }
-
-                // ── Analytics ─────────────────────────────────────────────────
-                composable(NavRoutes.ANALYTICS) {
-                    AnalyticsScreen(viewModel = viewModel)
-                }
-
-                // ── Templates ─────────────────────────────────────────────────
-                composable(NavRoutes.TEMPLATES) {
-                    TemplatesScreen(
-                        viewModel        = viewModel,
-                        onBack           = { navController.popBackStack() },
-                        onTemplateLoaded = {
-                            navController.navigate(NavRoutes.HOME) {
-                                popUpTo(NavRoutes.HOME) { inclusive = true }
+                        when {
+                            isTopLevelTransition && topLevelSlideDirection == TopLevelSlideDirection.Backward -> {
+                                slideOutHorizontally(tween(280)) { it } + fadeOut(tween(280))
                             }
+                            isTopLevelTransition -> {
+                                slideOutHorizontally(tween(280)) { -it } + fadeOut(tween(280))
+                            }
+                            else -> slideOutHorizontally(tween(280)) { -it } + fadeOut(tween(280))
                         }
-                    )
+                    },
+                    popEnterTransition  = { slideInHorizontally(tween(280)) { -it } + fadeIn(tween(280)) },
+                    popExitTransition   = { slideOutHorizontally(tween(280)) { it } + fadeOut(tween(280)) }
+                ) {
+                    addNavigationGraph(navController, viewModel, null)
                 }
             }
         }
+    }
+}
+
+private fun NavGraphBuilder.addNavigationGraph(
+    navController: NavHostController,
+    viewModel: ShoppingViewModel,
+    onSplashFinished: (() -> Unit)? = null
+) {
+    // ── Splash Screen ──────────────────────────────────────────
+    composable(NavRoutes.SPLASH) {
+        SplashScreen(
+            onFinished = {
+                onSplashFinished?.invoke()
+            }
+        )
+    }
+
+    // ── Home (Lists Hub) ────────────────────────────────────────
+    composable(NavRoutes.HOME) {
+        HomeScreen(
+            viewModel = viewModel,
+            onOpenList = { id ->
+                val list = viewModel.activeLists.value.find { it.id == id }
+                    ?: viewModel.archivedLists.value.find { it.id == id }
+                viewModel.selectList(id)
+                navController.navigate(NavRoutes.listDetail(id, list?.name ?: "List"))
+            }
+        )
+    }
+
+    // ── List Detail ──────────────────────────────────────────────
+    composable(NavRoutes.LIST_DETAIL) { back ->
+        val listId   = back.arguments?.getString("listId")?.toIntOrNull() ?: 0
+        val listName = back.arguments?.getString("listName")?.decodeSlash() ?: "List"
+        viewModel.selectList(listId)
+        ListDetailScreen(
+            viewModel       = viewModel,
+            listId          = listId,
+            listName        = listName,
+            onStartShopping = { navController.navigate(NavRoutes.shoppingMode(listId, listName)) },
+            onBack          = { navController.popBackStack() }
+        )
+    }
+
+    // ── Shopping Mode ────────────────────────────────────────────
+    composable(NavRoutes.SHOPPING_MODE) { back ->
+        val listId   = back.arguments?.getString("listId")?.toIntOrNull() ?: 0
+        val listName = back.arguments?.getString("listName")?.decodeSlash() ?: "List"
+        viewModel.selectList(listId)
+        ShoppingModeScreen(
+            listId    = listId,
+            listName  = listName,
+            viewModel = viewModel,
+            onBack    = { navController.popBackStack() },
+            onDone    = {
+                navController.navigate(NavRoutes.HOME) {
+                    popUpTo(NavRoutes.HOME) { inclusive = true }
+                }
+            }
+        )
+    }
+
+    // ── Calendar ─────────────────────────────────────────────────
+    composable(NavRoutes.CALENDAR) {
+        CalendarScreen(
+            viewModel      = viewModel,
+            onDateSelected = { date ->
+                viewModel.selectDate(date)
+                navController.navigate(NavRoutes.event(date))
+            },
+            onBack = { navController.popBackStack() }
+        )
+    }
+
+    // ── Event Detail ──────────────────────────────────────────────
+    composable(NavRoutes.EVENT) { back ->
+        val date = back.arguments?.getString("date") ?: ""
+        viewModel.selectDate(date)
+        EventDetailScreen(
+            date      = date,
+            viewModel = viewModel,
+            onBack    = { navController.popBackStack() }
+        )
+    }
+
+    // ── Analytics ─────────────────────────────────────────────────
+    composable(NavRoutes.ANALYTICS) {
+        AnalyticsScreen(viewModel = viewModel)
+    }
+
+    // ── Templates ─────────────────────────────────────────────────
+    composable(NavRoutes.TEMPLATES) {
+        TemplatesScreen(
+            viewModel        = viewModel,
+            onBack           = { navController.popBackStack() },
+            onTemplateLoaded = {
+                navController.navigate(NavRoutes.HOME) {
+                    popUpTo(NavRoutes.HOME) { inclusive = true }
+                }
+            }
+        )
     }
 }

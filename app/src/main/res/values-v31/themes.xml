@@ -1,8 +1,11 @@
 <resources>
-    <style name="Theme.ShoppingList2App" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenBackground">#E0F2FE</item>
-        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
-        <item name="postSplashScreenTheme">@style/Theme.ShoppingList2App.Base</item>
+    <style name="Theme.ShoppingList2App" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:windowBackground">#0C4A6E</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowDisablePreview">true</item>
+        <!-- On Android 12+, explicitly hide the system splash icon and background -->
+        <item name="android:windowSplashScreenAnimatedIcon">@android:color/transparent</item>
+        <item name="android:windowSplashScreenBackground">#0C4A6E</item>
     </style>
 </resources>
-
